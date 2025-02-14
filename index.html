@@ -41,15 +41,15 @@
     <!-- Form Tambah Penjual -->
     <div id="form-popup" class="form-container">
         <h2>Tambah Penjual</h2>
-        <input type="text" id="seller-name" placeholder="Nama Penjual">
-        <input type="text" id="seller-whatsapp" placeholder="Nomor WhatsApp">
-        <select id="seller-product">
+        <input type="text" id="seller-name" placeholder="Nama Penjual" required>
+        <input type="text" id="seller-whatsapp" placeholder="Nomor WhatsApp" required>
+        <select id="seller-product" required>
             <option value="Lele">Lele</option>
             <option value="Nila">Nila</option>
             <option value="Gurame">Gurame</option>
         </select>
-        <input type="number" id="seller-price" placeholder="Harga per kg">
-        <input type="file" id="seller-image" accept="image/*">
+        <input type="number" id="seller-price" placeholder="Harga per kg" required>
+        <input type="file" id="seller-image" accept="image/*" required>
         <button onclick="addSeller()">Tambahkan</button>
         <button onclick="closeForm()">Tutup</button>
     </div>
