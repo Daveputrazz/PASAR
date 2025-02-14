@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Fish Market</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>E-Fish Market</h1>
+        <p>Platform jual beli ikan online</p>
+    </header>
+
+    <!-- Slideshow -->
+    <section class="slideshow">
+        <button class="prev" onclick="prevSlide()">&#10094;</button>
+        
+        <div class="slide active">
+            <img src="images/PASAR.webp" alt="Pasar Ikan">
+        </div>
+        
+        <div class="slide">
+            <h2>Jenis Ikan yang Dijual</h2>
+            <div class="fish-list">
+                <div class="fish"><img src="images/LELE.png" alt="Ikan Lele"><p>Lele</p></div>
+                <div class="fish"><img src="images/NILA.webp" alt="Ikan Nila"><p>Nila</p></div>
+                <div class="fish"><img src="images/GURAME.webp" alt="Ikan Gurame"><p>Gurame</p></div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Daftar Penjual</h2>
+            <div id="seller-list"></div>
+            <button onclick="openForm()">Tambah Penjualan</button>
+        </div>
+        
+        <button class="next" onclick="nextSlide()">&#10095;</button>
+    </section>
+
+    <!-- Form Tambah Penjual -->
+    <div id="form-popup" class="form-container">
+        <h2>Tambah Penjual</h2>
+        <input type="text" id="seller-name" placeholder="Nama Penjual">
+        <input type="text" id="seller-whatsapp" placeholder="Nomor WhatsApp">
+        <select id="seller-product">
+            <option value="Lele">Lele</option>
+            <option value="Nila">Nila</option>
+            <option value="Gurame">Gurame</option>
+        </select>
+        <input type="number" id="seller-price" placeholder="Harga per kg">
+        <input type="file" id="seller-image" accept="image/*">
+        <button onclick="addSeller()">Tambahkan</button>
+        <button onclick="closeForm()">Tutup</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
