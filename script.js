@@ -1,93 +1,10 @@
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyB5rwSp4izSLqqJJ1JfM3z-53nmTiPT7OQ",
-    authDomain: "pasar-be733.firebaseapp.com",
-    projectId: "pasar-be733",
-    storageBucket: "pasar-be733.appspot.com",
-    messagingSenderId: "1023094402275",
-    appId: "1:1023094402275:web:14867f684e1ac52fd0a9d6",
-    measurementId: "G-WHMXKQ3YEC"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-
-// Login & Register
-function register() {
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
-    auth.createUserWithEmailAndPassword(email, password)
-        .then(() => alert("Registrasi Berhasil"))
-        .catch(error => alert(error.message));
-}
-
-function login() {
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
-    auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-            document.getElementById("logout-btn").style.display = "block";
-            alert("Login Berhasil");
-        })
-        .catch(error => alert(error.message));
-}
-
-function logout() {
-    auth.signOut().then(() => {
-        document.getElementById("logout-btn").style.display = "none";
-        alert("Logout Berhasil");
-    });
-}
-
-// Slideshow Functionality
-let slideIndex = 0;
-const slides = document.querySelectorAll(".slide");
-
-function showSlide(index) {
-    slides.forEach(slide => slide.classList.remove("active"));
-    slides[index].classList.add("active");
-}
-
-function nextSlide() {
-    slideIndex = (slideIndex + 1) % slides.length;
-    showSlide(slideIndex);
-}
-
-function prevSlide() {
-    slideIndex = (slideIndex - 1 + slides.length) % slides.length;
-    showSlide(slideIndex);
-}
-
-showSlide(slideIndex);
-
-// Menambahkan Penjual
-function addSeller() {
-    let name = document.getElementById("seller-name").value;
-    let whatsapp = document.getElementById("seller-whatsapp").value;
-    let product = document.getElementById("seller-product").value;
-    let price = document.getElementById("seller-price").value;
-    let image = document.getElementById("seller-image").files[0];
-
-    if (whatsapp.startsWith("0")) {
-        whatsapp = "62" + whatsapp.substring(1);
-    }
-
-    let sellerList = document.getElementById("seller-list");
-    let sellerDiv = document.createElement("div");
-    sellerDiv.innerHTML = `
-        <h3>${name}</h3>
-        <p>Produk: ${product}</p>
-        <p>Harga: Rp${price}/kg</p>
-        <p>WhatsApp: <a href="https://wa.me/${whatsapp}" target="_blank">${whatsapp}</a></p>
-        <button onclick="removeSeller(this)">Hapus</button>
-    `;
-    sellerList.appendChild(sellerDiv);
-}
-
-function removeSeller(button) {
-    button.parentElement.remove();
-}
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+        slides = document.querySelectorAll(".slide");
+        loadSellers();
+        showSlide(currentSlide);
+    }, 500); // Tunggu 500ms agar elemen siap
+});
 
 function openForm() {
     document.getElementById("form-popup").style.display = "block";
@@ -96,3 +13,84 @@ function openForm() {
 function closeForm() {
     document.getElementById("form-popup").style.display = "none";
 }
+
+function addSeller() {
+    let name = document.getElementById("seller-name").value.trim();
+    let whatsapp = document.getElementById("seller-whatsapp").value.trim();
+    let product = document.getElementById("seller-product").value;
+    let price = document.getElementById("seller-price").value;
+    let imageFile = document.getElementById("seller-image").files[0];
+
+    if (!name || !whatsapp || !price || !imageFile) {
+        alert("Semua field harus diisi!");
+        return;
+    }
+
+    if (whatsapp.startsWith("0")) {
+        whatsapp = "62" + whatsapp.substring(1);
+    }
+
+    let reader = new FileReader();
+    reader.onload = function (e) {
+        let imageData = e.target.result;
+
+        let newSeller = {
+            name: name,
+            whatsapp: whatsapp,
+            product: product,
+            price: price,
+            image: imageData
+        };
+
+        let sellers = JSON.parse(localStorage.getItem("sellers")) || [];
+        sellers.push(newSeller);
+        localStorage.setItem("sellers", JSON.stringify(sellers));
+
+        loadSellers();
+        closeForm();
+    };
+
+    reader.readAsDataURL(imageFile);
+}
+
+function loadSellers() {
+    let sellerList = document.getElementById("seller-list");
+    sellerList.innerHTML = "";
+
+    let sellers = JSON.parse(localStorage.getItem("sellers")) || [];
+    
+    sellers.forEach(seller => {
+        let sellerDiv = document.createElement("div");
+        sellerDiv.classList.add("seller");
+
+        sellerDiv.innerHTML = `
+            <h3>${seller.name}</h3>
+            <img src="${seller.image}" alt="${seller.product}" class="seller-img">
+            <p>Produk: ${seller.product}</p>
+            <p>Harga: Rp${seller.price}/kg</p>
+            <a href="https://wa.me/${seller.whatsapp}" target="_blank" class="whatsapp-button">Hubungi via WhatsApp</a>
+        `;
+
+        sellerList.appendChild(sellerDiv);
+    });
+}
+
+// Slideshow Logic
+let currentSlide = 0;
+let slides;
+
+function showSlide(index) {
+    slides.forEach(slide => slide.style.display = "none");
+    slides[index].style.display = "block";
+}
+
+function prevSlide() {
+    currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
+    showSlide(currentSlide);
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+    showSlide(currentSlide);
+}
+ 
