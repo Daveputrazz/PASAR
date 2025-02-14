@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadSellers();
+    showSlide(currentSlide);
 });
 
 function openForm() {
@@ -71,12 +72,13 @@ function loadSellers() {
     });
 }
 
+// Slideshow Logic
 let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
+let slides = document.querySelectorAll(".slide");
 
 function showSlide(index) {
-    slides.forEach(slide => slide.classList.remove("active"));
-    slides[index].classList.add("active");
+    slides.forEach(slide => slide.style.display = "none");
+    slides[index].style.display = "block";
 }
 
 function prevSlide() {
