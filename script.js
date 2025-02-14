@@ -93,3 +93,4 @@ function nextSlide() {
     currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
     showSlide(currentSlide);
 }
+ 
