@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadSellers();
-    showSlide(currentSlide);
+    setTimeout(() => {
+        slides = document.querySelectorAll(".slide");
+        loadSellers();
+        showSlide(currentSlide);
+    }, 500); // Tunggu 500ms agar elemen siap
 });
 
 function openForm() {
@@ -74,7 +77,7 @@ function loadSellers() {
 
 // Slideshow Logic
 let currentSlide = 0;
-let slides = document.querySelectorAll(".slide");
+let slides;
 
 function showSlide(index) {
     slides.forEach(slide => slide.style.display = "none");
